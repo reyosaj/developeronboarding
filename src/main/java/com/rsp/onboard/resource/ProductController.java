@@ -6,6 +6,7 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +33,7 @@ public class ProductController {
 			@ApiResponse(code = 200, message = "Success", response = ProductResponse.class, responseContainer = "List") })
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<?> getAllProducts() {
+	public ResponseEntity<?> getAllProducts(@RequestHeader("X-Authorization") String authHeader) {
 
 		List<ProductResponse> products = StreamSupport.stream(productRepository.findAll().spliterator(), false)
 				.map(p ->  new ProductResponse()

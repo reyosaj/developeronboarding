@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,7 +48,8 @@ public class PricingController {
 			@ApiResponse(code = 404, message = "Customer not found") })
 	@RequestMapping(method = RequestMethod.POST, path = "/compute", consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<?> computePrice(@Valid @RequestBody PricingRequest pricingRequest) {
+	public ResponseEntity<?> computePrice(@Valid @RequestBody PricingRequest pricingRequest,
+			@RequestHeader("X-Authorization") String authHeader) {
 
 		Customer customer = customerRepository.findByCustomerAbn(pricingRequest.getCustomerAbn());
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +42,8 @@ public class RiskController {
 			@ApiResponse(code = 404, message = "Customer not found") })
 	@RequestMapping(method = RequestMethod.POST, path = "/status", consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<?> computeRiskStatus(@Valid @RequestBody RiskRequest riskRequest) {
+	public ResponseEntity<?> computeRiskStatus(@Valid @RequestBody RiskRequest riskRequest,
+			@RequestHeader("X-Authorization") String authHeader) {
 		Customer customer = customerRepository.findByCustomerAbn(riskRequest.getCustomerAbn());
 
 		if (customer == null) {
